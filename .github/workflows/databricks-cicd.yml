@@ -1,14 +1,14 @@
-name: Databricks CI/CD
+name: Retail Analytics CI-CD
 
 on:
 
-  pull_request:
+  push:
     branches:
       - develop
       - test
       - main
 
-  push:
+  pull_request:
     branches:
       - develop
       - test
@@ -25,10 +25,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Validate Project Structure
+      - name: Validate Repository Structure
         run: |
-          echo "Validating notebooks"
-          echo "Validation successful"
+
+          echo "Checking notebooks"
+
+          test -d notebooks
+          test -d config
+          test -d deployment
+          test -d tests
+
+          echo "Validation Successful"
 
   deploy-test:
 
@@ -40,9 +47,10 @@ jobs:
 
     steps:
 
-      - name: Deploy To Test
+      - name: Deploy To TEST
         run: |
-          echo "Deploying to TEST environment"
+
+          echo "Deploying Retail Analytics Pipeline To TEST"
 
   deploy-prod:
 
@@ -56,4 +64,5 @@ jobs:
 
       - name: Deploy To PROD
         run: |
-          echo "Deploying to PROD environment"
+
+          echo "Deploying Retail Analytics Pipeline To PROD"
