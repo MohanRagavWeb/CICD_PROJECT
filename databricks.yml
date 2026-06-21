@@ -8,13 +8,16 @@ targets:
 
   dev:
     default: true
+
     workspace:
-      host: https://dbc-25f7ab77-23e7.cloud.databricks.com/browse/folders/401271506371464?o=7474652153105875
+      host: https://dbc-25f7ab77-23e7.cloud.databricks.com
 
   test:
+
     workspace:
-      host: https://dbc-25f7ab77-23e7.cloud.databricks.com/browse/folders/401271506371464?o=7474652153105875
+      host: https://dbc-25f7ab77-23e7.cloud.databricks.com
 
   prod:
+
     workspace:
-      host: https://dbc-25f7ab77-23e7.cloud.databricks.com/browse/folders/401271506371464?o=7474652153105875
+      host: https://dbc-25f7ab77-23e7.cloud.databricks.com
