@@ -28,14 +28,7 @@ jobs:
       - name: Validate Repository Structure
         run: |
 
-          echo "Checking notebooks"
-
-          test -d notebooks
-          test -d config
-          test -d deployment
-          test -d tests
-
-          echo "Validation Successful"
+         python tests/run_tests.py
 
   deploy-test:
 
