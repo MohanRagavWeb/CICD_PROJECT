@@ -1,0 +1,20 @@
+bundle:
+  name: retail-analytics-cicd
+
+include:
+  - resources/*.yml
+
+targets:
+
+  dev:
+    default: true
+    workspace:
+      host: https://dbc-25f7ab77-23e7.cloud.databricks.com/browse/folders/401271506371464?o=7474652153105875
+
+  test:
+    workspace:
+      host: https://dbc-25f7ab77-23e7.cloud.databricks.com/browse/folders/401271506371464?o=7474652153105875
+
+  prod:
+    workspace:
+      host: https://dbc-25f7ab77-23e7.cloud.databricks.com/browse/folders/401271506371464?o=7474652153105875
