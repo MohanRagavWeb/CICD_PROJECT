@@ -1,17 +1,24 @@
-import os
+import subprocess
 
-required_folders = [
-    "notebooks",
-    "config",
-    "deployment",
-    "tests"
+test_files = [
+
+    "tests/test_project_structure.py",
+    "tests/test_configs.py"
+
 ]
 
-for folder in required_folders:
+for test in test_files:
 
-    if not os.path.exists(folder):
+    result = subprocess.run(
+        ["python", test]
+    )
+
+    if result.returncode != 0:
+
         raise Exception(
-            f"{folder} missing"
+            f"{test} failed"
         )
 
-print("All tests passed")
+print(
+    "All Tests Passed"
+)
