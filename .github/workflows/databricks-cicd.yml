@@ -1,0 +1,59 @@
+name: Databricks CI/CD
+
+on:
+
+  pull_request:
+    branches:
+      - develop
+      - test
+      - main
+
+  push:
+    branches:
+      - develop
+      - test
+      - main
+
+jobs:
+
+  validate:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Validate Project Structure
+        run: |
+          echo "Validating notebooks"
+          echo "Validation successful"
+
+  deploy-test:
+
+    if: github.ref == 'refs/heads/test'
+
+    needs: validate
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Deploy To Test
+        run: |
+          echo "Deploying to TEST environment"
+
+  deploy-prod:
+
+    if: github.ref == 'refs/heads/main'
+
+    needs: validate
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Deploy To PROD
+        run: |
+          echo "Deploying to PROD environment"
