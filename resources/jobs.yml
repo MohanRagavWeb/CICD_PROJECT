@@ -1,0 +1,30 @@
+resources:
+
+  jobs:
+
+    retail_pipeline:
+
+      name: Retail Analytics Pipeline
+
+      tasks:
+
+        - task_key: bronze
+
+          notebook_task:
+            notebook_path: ./notebooks/bronze/bronze_ingestion_framework
+
+        - task_key: silver
+
+          depends_on:
+            - task_key: bronze
+
+          notebook_task:
+            notebook_path: ./notebooks/silver/02_silver_framework
+
+        - task_key: gold
+
+          depends_on:
+            - task_key: silver
+
+          notebook_task:
+            notebook_path: ./notebooks/gold/03_gold_framework
