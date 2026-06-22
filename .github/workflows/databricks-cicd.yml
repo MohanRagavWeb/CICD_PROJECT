@@ -54,7 +54,7 @@ jobs:
           echo "host=$DATABRICKS_HOST" >> ~/.databrickscfg
           echo "token=$DATABRICKS_TOKEN" >> ~/.databrickscfg
 
-          databricks workspace ls /
+          databricks workspace mkdirs /Workspace/Users/mohan.r@diggibyte.com/GitHub_CICD_Test
 
   deploy-test:
 
