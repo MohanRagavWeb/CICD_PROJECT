@@ -60,15 +60,25 @@ jobs:
 
     if: github.ref == 'refs/heads/test'
 
-    needs: validate
+    needs: test-databricks-connection
 
     runs-on: ubuntu-latest
 
     steps:
 
-      - name: Deploy To TEST
+      - name: Trigger TEST Deployment Job
+
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
         run: |
-          echo "Deploying Retail Analytics Pipeline To TEST"
+          echo "[DEFAULT]" > ~/.databrickscfg
+          echo "host=$DATABRICKS_HOST" >> ~/.databrickscfg
+          echo "token=$DATABRICKS_TOKEN" >> ~/.databrickscfg
+
+          databricks jobs run-now \
+          --job-id 410916099611846
 
   deploy-prod:
 
