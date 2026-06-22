@@ -1,0 +1,86 @@
+resources:
+
+  jobs:
+
+    retail_analytics_pipeline:
+
+      name: Retail Analytics Pipeline
+
+      tasks:
+
+        - task_key: bronze_metadata
+
+          notebook_task:
+            notebook_path: ../notebooks/bronze/01_create_metadata
+
+        - task_key: bronze_audit
+
+          depends_on:
+            - task_key: bronze_metadata
+
+          notebook_task:
+            notebook_path: ../notebooks/bronze/create_audit_table
+
+        - task_key: bronze_framework
+
+          depends_on:
+            - task_key: bronze_audit
+
+          notebook_task:
+            notebook_path: ../notebooks/bronze/bronze_ingestion_framework
+
+        - task_key: silver_metadata
+
+          depends_on:
+            - task_key: bronze_framework
+
+          notebook_task:
+            notebook_path: ../notebooks/silver/00_create_silver_metadata
+
+        - task_key: silver_transform
+
+          depends_on:
+            - task_key: silver_metadata
+
+          notebook_task:
+            notebook_path: ../notebooks/silver/01_silver_transformation
+
+        - task_key: silver_framework
+
+          depends_on:
+            - task_key: silver_transform
+
+          notebook_task:
+            notebook_path: ../notebooks/silver/02_silver_framework
+
+        - task_key: gold_metadata
+
+          depends_on:
+            - task_key: silver_framework
+
+          notebook_task:
+            notebook_path: ../notebooks/gold/00_create_gold_metadata
+
+        - task_key: gold_audit
+
+          depends_on:
+            - task_key: gold_metadata
+
+          notebook_task:
+            notebook_path: ../notebooks/gold/01_create_gold_audit
+
+        - task_key: gold_customer
+
+          depends_on:
+            - task_key: gold_audit
+
+          notebook_task:
+            notebook_path: ../notebooks/gold/02_gold_customer_analytics
+
+        - task_key: gold_framework
+
+          depends_on:
+            - task_key: gold_customer
+
+          notebook_task:
+            notebook_path: ../notebooks/gold/03_gold_framework
