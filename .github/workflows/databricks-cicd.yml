@@ -1,7 +1,6 @@
 name: Retail Analytics CI-CD
 
 on:
-
   push:
     branches:
       - develop
@@ -17,11 +16,9 @@ on:
 jobs:
 
   validate:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -30,13 +27,11 @@ jobs:
           python tests/run_tests.py
 
   test-databricks-connection:
-
     needs: validate
 
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -57,7 +52,6 @@ jobs:
           databricks workspace mkdirs /Workspace/Users/mohan.r@diggibyte.com/GitHub_CICD_Test
 
   deploy-test:
-
     if: github.ref == 'refs/heads/test'
 
     needs: test-databricks-connection
@@ -65,9 +59,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Install Databricks CLI
+        run: |
+          pip install databricks-cli
 
       - name: Trigger TEST Deployment Job
-
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
@@ -77,11 +73,9 @@ jobs:
           echo "host=$DATABRICKS_HOST" >> ~/.databrickscfg
           echo "token=$DATABRICKS_TOKEN" >> ~/.databrickscfg
 
-          databricks jobs run-now \
-          --job-id 410916099611846
+          databricks jobs run-now --job-id 410916099611846
 
   deploy-prod:
-
     if: github.ref == 'refs/heads/main'
 
     needs: validate
@@ -89,7 +83,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Deploy To PROD
         run: |
           echo "Deploying Retail Analytics Pipeline To PROD"
