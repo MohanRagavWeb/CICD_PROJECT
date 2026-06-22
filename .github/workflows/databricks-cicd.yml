@@ -27,8 +27,34 @@ jobs:
 
       - name: Validate Repository Structure
         run: |
+          python tests/run_tests.py
 
-         python tests/run_tests.py
+  test-databricks-connection:
+
+    needs: validate
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Databricks CLI
+        run: |
+          pip install databricks-cli
+
+      - name: Test Databricks Connection
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+        run: |
+          echo "[DEFAULT]" > ~/.databrickscfg
+          echo "host=$DATABRICKS_HOST" >> ~/.databrickscfg
+          echo "token=$DATABRICKS_TOKEN" >> ~/.databrickscfg
+
+          databricks workspace ls /
 
   deploy-test:
 
@@ -42,7 +68,6 @@ jobs:
 
       - name: Deploy To TEST
         run: |
-
           echo "Deploying Retail Analytics Pipeline To TEST"
 
   deploy-prod:
@@ -57,5 +82,4 @@ jobs:
 
       - name: Deploy To PROD
         run: |
-
           echo "Deploying Retail Analytics Pipeline To PROD"
